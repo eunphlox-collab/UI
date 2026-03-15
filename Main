@@ -435,7 +435,6 @@ library.gui = library:create("ScreenGui", {
 	Name = "",
 	DisplayOrder = 2,
 	ZIndexBehavior = 1,
-  IgnoreGuiInset = true,
 })
 
 -- library functions
