@@ -1826,7 +1826,7 @@ function library:window(properties)
 		Position = UDim2.new(0, 2, 0, 2),
 		Size = UDim2.new(1, -4, 1, -4),
 		TextSize = 12,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(32, 32, 32),
 	})
 
 	button.MouseButton1Click:Connect(function()
