@@ -609,9 +609,6 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(26, 26, 26),
 	})
 
-	-- =============================================
-	-- 사이드바 탭 버튼 영역 (왼쪽 세로 배치)
-	-- =============================================
 	local sidebar = library:create("Frame", {
 		Parent = main,
 		Name = "",
@@ -623,7 +620,6 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
 
-	-- 사이드바 오른쪽 구분선
 	local sidebar_divider = library:create("Frame", {
 		Parent = sidebar,
 		Name = "",
@@ -633,7 +629,6 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
 
-	-- 탭 버튼 홀더 (사이드바 안 세로 레이아웃)
 	local tab_buttons = library:create("Frame", {
 		Parent = sidebar,
 		Name = "",
@@ -657,9 +652,6 @@ function library:window(properties)
 		SortOrder = Enum.SortOrder.LayoutOrder,
 	})
 
-	-- =============================================
-	-- 콘텐츠 영역 (사이드바 오른쪽)
-	-- =============================================
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
@@ -2658,7 +2650,6 @@ function library:tab(properties)
 	})
 
 	function cfg.open_tab()
-		-- 이전 탭 비선택 상태로 복원
 		if library.current_tab and library.current_tab[1] ~= TAB_BUTTON then
 			local button = library.current_tab[1]
 			button.TextColor3 = themes.preset.unselected_text
@@ -2681,7 +2672,6 @@ function library:tab(properties)
 			TAB,
 		}
 
-		-- 선택된 탭 스타일 적용
 		line.BackgroundColor3 = themes.preset.accent
 		glow.Visible = true
 		TAB_BUTTON.TextColor3 = themes.preset.text
