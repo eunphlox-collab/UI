@@ -619,7 +619,7 @@ function library:window(properties)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BackgroundTransparency = 0.7,
 		Position = UDim2.new(0, 8, 0, 8),
-		Size = UDim2.new(0, 109, 1, -16),
+		Size = UDim2.new(0, 110, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
 	})
@@ -652,7 +652,7 @@ function library:window(properties)
 		Name = "",
 		FillDirection = Enum.FillDirection.Vertical,
 		HorizontalAlignment = Enum.HorizontalAlignment.Center,
-		Padding = UDim.new(0, 4),
+		Padding = UDim.new(0, 3),
 		SortOrder = Enum.SortOrder.LayoutOrder,
 	})
 
