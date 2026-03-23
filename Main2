@@ -2518,17 +2518,25 @@ function library:tab(properties)
 		PaddingLeft = UDim.new(0, 14),
 	})
 
-	-- 왼쪽 세로 accent 라인 (선택 표시)
+	-- 왼쪽 세로 accent 라인 (tab_holder 기준, 버튼 위치 추적)
 	local line = library:create("Frame", {
-		Parent = TAB_BUTTON,
+		Parent = self.tab_holder,
 		Name = "",
-		Position = UDim2.new(0, -10, 0, 0),
+		Position = UDim2.new(0, 0, 0, 0),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(0, 2, 1, 0),
+		Size = UDim2.new(0, 2, 0, 26),
 		BorderSizePixel = 0,
 		ZIndex = 3,
 		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
+
+	task.defer(function()
+		line.Position = UDim2.new(0, 0, 0, TAB_BUTTON.Position.Y.Offset)
+	end)
+
+	TAB_BUTTON:GetPropertyChangedSignal("Position"):Connect(function()
+		line.Position = UDim2.new(0, 0, 0, TAB_BUTTON.Position.Y.Offset)
+	end)
 
 	local glow = library:create("ImageLabel", {
 		Parent = line,
@@ -2669,16 +2677,17 @@ function library:tab(properties)
 		-- 이전 탭 비선택 상태로 복원
 		if library.current_tab and library.current_tab[1] ~= TAB_BUTTON then
 			local button = library.current_tab[1]
+			local prev_line = library.current_tab[3]
+			local prev_glow = library.current_tab[4]
+
 			button.TextColor3 = themes.preset.unselected_text
 			button.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
 
-			local side_line = button:FindFirstChildOfClass("Frame")
-			if side_line then
-				side_line.BackgroundColor3 = Color3.fromRGB(38, 38, 52)
-				local side_glow = side_line:FindFirstChildOfClass("ImageLabel")
-				if side_glow then
-					side_glow.Visible = false
-				end
+			if prev_line then
+				prev_line.BackgroundColor3 = Color3.fromRGB(38, 38, 52)
+			end
+			if prev_glow then
+				prev_glow.Visible = false
 			end
 
 			library.current_tab[2].Visible = false
@@ -2687,6 +2696,8 @@ function library:tab(properties)
 		library.current_tab = {
 			TAB_BUTTON,
 			TAB,
+			line,
+			glow,
 		}
 
 		-- 선택된 탭 스타일 적용
