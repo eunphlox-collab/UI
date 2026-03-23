@@ -617,7 +617,7 @@ function library:window(properties)
 		Name = "",
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BackgroundTransparency = 0,
-		Position = UDim2.new(0, 8, 0, 8),
+		Position = UDim2.new(0, 14, 0, 8),
 		Size = UDim2.new(0, 96, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
@@ -663,9 +663,9 @@ function library:window(properties)
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
-		Position = UDim2.new(0, 112, 0, 8),
+		Position = UDim2.new(0, 118, 0, 8),
 		BorderColor3 = Color3.fromRGB(19, 19, 19),
-		Size = UDim2.new(1, -120, 1, -16),
+		Size = UDim2.new(1, -126, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(19, 19, 19),
 	})
@@ -2515,18 +2515,19 @@ function library:tab(properties)
 	local UIPadding = library:create("UIPadding", {
 		Parent = TAB_BUTTON,
 		Name = "",
-		PaddingLeft = UDim.new(0, 10),
+		PaddingLeft = UDim.new(0, 14),
 	})
 
 	-- 왼쪽 세로 accent 라인 (선택 표시)
 	local line = library:create("Frame", {
 		Parent = TAB_BUTTON,
 		Name = "",
-		Position = UDim2.new(0, 0, 0, 0),
+		Position = UDim2.new(0, -10, 0, 0),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Size = UDim2.new(0, 2, 1, 0),
 		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 52), -- 기본: 비선택 상태 색
+		ZIndex = 3,
+		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
 
 	local glow = library:create("ImageLabel", {
