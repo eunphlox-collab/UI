@@ -408,9 +408,18 @@ function library:update_theme(theme, color)
 
 	themes.preset[theme] = color
 
-    if theme == "accent" and library.current_tab and library.current_tab[3] then
-        library.current_tab[3].BackgroundColor3 = color
-    end
+	if theme == "accent" and library.current_tab and library.current_tab[3] then
+		library.current_tab[3].BackgroundColor3 = color
+	end
+	if theme == "accent" and library.sidebar then
+  	    local r = color.R * 0.15
+  	    local g = color.G * 0.15
+   		local b = color.B * 0.15
+   		library.sidebar.BackgroundColor3 = Color3.new(r, g, b)
+   		if library.current_tab and library.current_tab[1] then
+        	library.current_tab[1].BackgroundColor3 = Color3.new(r * 1.8, g * 1.8, b * 1.8)
+    	end
+	end
 end
 
 function library:connection(signal, callback)
@@ -621,8 +630,10 @@ function library:window(properties)
 		Position = UDim2.new(0, 8, 0, 8),
 		Size = UDim2.new(0, 108, 1, -16),
 		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
+		button.BackgroundColor3 = library.sidebar and library.sidebar.BackgroundColor3 or Color3.fromRGB(16, 16, 22),
 	})
+
+    library.sidebar = sidebar
 
 	local sidebar_divider = library:create("Frame", {
 		Parent = sidebar,
@@ -2502,7 +2513,7 @@ function library:tab(properties)
 		BorderSizePixel = 0,
 		TextSize = 12,
         TextXAlignment = Enum.TextXAlignment.Left,
-		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
+		BackgroundColor3 = library.sidebar and library.sidebar.BackgroundColor3 or Color3.fromRGB(16, 16, 22),
 	})
 
 	local line = library:create("Frame", {
@@ -2653,7 +2664,12 @@ function library:tab(properties)
 		if library.current_tab and library.current_tab[1] ~= TAB_BUTTON then
 			local button = library.current_tab[1]
 			button.TextColor3 = themes.preset.unselected_text
-			button.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
+			if library.sidebar then
+  			    local s = library.sidebar.BackgroundColor3
+ 			    button.BackgroundColor3 = s
+			else
+ 			   button.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
+			end
 
 			local side_line = button:FindFirstChildOfClass("Frame")
 			if side_line then
@@ -2676,7 +2692,8 @@ function library:tab(properties)
 		line.BackgroundColor3 = themes.preset.accent
 		glow.Visible = true
 		TAB_BUTTON.TextColor3 = themes.preset.text
-		TAB_BUTTON.BackgroundColor3 = Color3.fromRGB(22, 22, 32)
+		local s = library.sidebar and library.sidebar.BackgroundColor3 or Color3.fromRGB(16, 16, 22)
+		TAB_BUTTON.BackgroundColor3 = Color3.new(s.R * 1.8, s.G * 1.8, s.B * 1.8)
 		TAB.Visible = true
 
 		if library.current_element_open and library.current_element_open ~= cfg then
