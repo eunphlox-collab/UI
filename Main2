@@ -407,6 +407,10 @@ function library:update_theme(theme, color)
 	end
 
 	themes.preset[theme] = color
+
+    if theme == "accent" and library.current_tab and library.current_tab[3] then
+        library.current_tab[3].BackgroundColor3 = color
+    end
 end
 
 function library:connection(signal, callback)
