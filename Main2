@@ -2669,6 +2669,7 @@ function library:tab(properties)
 		library.current_tab = {
 			TAB_BUTTON,
 			TAB,
+			line,
 		}
 
 		line.BackgroundColor3 = themes.preset.accent
