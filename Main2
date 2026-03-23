@@ -652,7 +652,7 @@ function library:window(properties)
 		Name = "",
 		FillDirection = Enum.FillDirection.Vertical,
 		HorizontalAlignment = Enum.HorizontalAlignment.Center,
-		Padding = UDim.new(0, 3),
+		Padding = UDim.new(0, 4),
 		SortOrder = Enum.SortOrder.LayoutOrder,
 	})
 
