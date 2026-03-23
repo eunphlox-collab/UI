@@ -618,7 +618,7 @@ function library:window(properties)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BackgroundTransparency = 0,
 		Position = UDim2.new(0, 8, 0, 8),
-		Size = UDim2.new(0, 96, 1, -16),
+		Size = UDim2.new(0, 101, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
@@ -663,9 +663,9 @@ function library:window(properties)
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
-		Position = UDim2.new(0, 132, 0, 8),
+		Position = UDim2.new(0, 117, 0, 8),
 		BorderColor3 = Color3.fromRGB(19, 19, 19),
-		Size = UDim2.new(1, -120, 1, -16),
+		Size = UDim2.new(1, -125, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(19, 19, 19),
 	})
