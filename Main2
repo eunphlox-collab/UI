@@ -703,6 +703,7 @@ function library:window(properties)
 		ZIndex = 2,
 		TextSize = 12,
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		Visible = false,
 	})
 
 	local glow = library:create("ImageLabel", {
