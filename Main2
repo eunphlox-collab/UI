@@ -609,21 +609,17 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(26, 26, 26),
 	})
 
-	-- =============================================
-	-- 사이드바 탭 버튼 영역 (왼쪽 세로 배치)
-	-- =============================================
 	local sidebar = library:create("Frame", {
 		Parent = main,
 		Name = "",
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BackgroundTransparency = 0,
-		Position = UDim2.new(0, 14, 0, 8),
-		Size = UDim2.new(0, 96, 1, -16),
+		Position = UDim2.new(0, 8, 0, 8),
+		Size = UDim2.new(0, 108, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
 
-	-- 사이드바 오른쪽 구분선
 	local sidebar_divider = library:create("Frame", {
 		Parent = sidebar,
 		Name = "",
@@ -633,7 +629,6 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
 
-	-- 탭 버튼 홀더 (사이드바 안 세로 레이아웃)
 	local tab_buttons = library:create("Frame", {
 		Parent = sidebar,
 		Name = "",
@@ -653,19 +648,16 @@ function library:window(properties)
 		Name = "",
 		FillDirection = Enum.FillDirection.Vertical,
 		HorizontalAlignment = Enum.HorizontalAlignment.Center,
-		Padding = UDim.new(0, 2),
+		Padding = UDim.new(0, 4),
 		SortOrder = Enum.SortOrder.LayoutOrder,
 	})
 
-	-- =============================================
-	-- 콘텐츠 영역 (사이드바 오른쪽)
-	-- =============================================
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
-		Position = UDim2.new(0, 118, 0, 8),
+		Position = UDim2.new(0, 125, 0, 8),
 		BorderColor3 = Color3.fromRGB(19, 19, 19),
-		Size = UDim2.new(1, -126, 1, -16),
+		Size = UDim2.new(1, -132, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(19, 19, 19),
 	})
@@ -2486,60 +2478,37 @@ function library:notification(properties)
 	table.insert(library.notifications, holder)
 end
 
--- =============================================
--- library:tab - 사이드바 세로 탭 버튼으로 변경
--- =============================================
 function library:tab(properties)
 	local cfg = {
 		name = properties.name or "tab",
 		enabled = false,
 	}
 
-	-- 사이드바 탭 버튼
 	local TAB_BUTTON = library:create("TextButton", {
 		Parent = self.tab_holder,
 		Name = "",
 		FontFace = library.font,
 		TextColor3 = themes.preset.unselected_text,
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Text = cfg.name,
+		Text = "   " .. cfg.name,
 		TextStrokeTransparency = 0.5,
 		BackgroundTransparency = 0,
-		TextXAlignment = Enum.TextXAlignment.Left,
 		Size = UDim2.new(1, 0, 0, 26),
 		BorderSizePixel = 0,
 		TextSize = 12,
+        TextXAlignment = Enum.TextXAlignment.Left,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
 
-	local UIPadding = library:create("UIPadding", {
-		Parent = TAB_BUTTON,
-		Name = "",
-		PaddingLeft = UDim.new(0, 14),
-	})
-
-	-- 왼쪽 세로 accent 라인 (tab_holder 기준, 버튼 위치 추적)
 	local line = library:create("Frame", {
-		Parent = self.tab_holder,
+		Parent = TAB_BUTTON,
 		Name = "",
 		Position = UDim2.new(0, 0, 0, 0),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(0, 2, 0, 26),
+		Size = UDim2.new(0, 2, 1, 0),
 		BorderSizePixel = 0,
-		ZIndex = 3,
-		BackgroundTransparency = 1,
-		BackgroundColor3 = themes.preset.accent,
+		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
-
-	library:apply_theme(line, "accent", "BackgroundColor3")
-
-	task.defer(function()
-		line.Position = UDim2.new(0, 0, 0, TAB_BUTTON.Position.Y.Offset)
-	end)
-
-	TAB_BUTTON:GetPropertyChangedSignal("Position"):Connect(function()
-		line.Position = UDim2.new(0, 0, 0, TAB_BUTTON.Position.Y.Offset)
-	end)
 
 	local glow = library:create("ImageLabel", {
 		Parent = line,
@@ -2561,7 +2530,6 @@ function library:tab(properties)
 
 	library:apply_theme(glow, "accent", "ImageColor3")
 
-	-- 탭 콘텐츠 프레임
 	local TAB = library:create("Frame", {
 		Parent = self.tab_instance_holder,
 		Name = "",
@@ -2677,20 +2645,18 @@ function library:tab(properties)
 	})
 
 	function cfg.open_tab()
-		-- 이전 탭 비선택 상태로 복원
 		if library.current_tab and library.current_tab[1] ~= TAB_BUTTON then
 			local button = library.current_tab[1]
-			local prev_line = library.current_tab[3]
-			local prev_glow = library.current_tab[4]
-
 			button.TextColor3 = themes.preset.unselected_text
 			button.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
 
-			if prev_line then
-				prev_line.BackgroundTransparency = 1
-			end
-			if prev_glow then
-				prev_glow.Visible = false
+			local side_line = button:FindFirstChildOfClass("Frame")
+			if side_line then
+				side_line.BackgroundColor3 = Color3.fromRGB(38, 38, 52)
+				local side_glow = side_line:FindFirstChildOfClass("ImageLabel")
+				if side_glow then
+					side_glow.Visible = false
+				end
 			end
 
 			library.current_tab[2].Visible = false
@@ -2699,12 +2665,9 @@ function library:tab(properties)
 		library.current_tab = {
 			TAB_BUTTON,
 			TAB,
-			line,
-			glow,
 		}
 
-		-- 선택된 탭 스타일 적용
-		line.BackgroundTransparency = 0
+		line.BackgroundColor3 = themes.preset.accent
 		glow.Visible = true
 		TAB_BUTTON.TextColor3 = themes.preset.text
 		TAB_BUTTON.BackgroundColor3 = Color3.fromRGB(22, 22, 32)
@@ -2772,16 +2735,9 @@ function library:section(properties)
 		Parent = section_inline,
 		Name = "",
 		Position = UDim2.new(0, 2, 0, 2),
-		BorderColor3 = Color3.fromRGB(38, 38, 38),
+		BorderColor3 = Color3.fromRGB(56, 56, 56),
 		Size = UDim2.new(1, -4, 1, -4),
-		BackgroundColor3 = Color3.fromRGB(16, 16, 18),
-	})
-
-	library:create("UIStroke", {
-		Parent = section,
-		Name = "",
-		Color = Color3.fromRGB(44, 44, 52),
-		LineJoinMode = Enum.LineJoinMode.Miter,
+		BackgroundColor3 = Color3.fromRGB(22, 22, 22),
 	})
 
 	local elements = library:create("Frame", {
