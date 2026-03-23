@@ -69,9 +69,9 @@ local config_flags = library.config_flags
 
 local themes = {
 	preset = {
-		["outline"] = rgb(32, 32, 38), --
-		["inline"] = rgb(60, 55, 75), --
-		["accent"] = rgb(100, 100, 255), --
+		["outline"] = rgb(32, 32, 38),
+		["inline"] = rgb(60, 55, 75),
+		["accent"] = rgb(100, 100, 255),
 		["contrast"] = rgb(35, 35, 47),
 		["text"] = rgb(170, 170, 170),
 		["unselected_text"] = rgb(90, 90, 90),
@@ -194,7 +194,6 @@ if not isfile(library.directory .. "/fonts/main_encoded.ttf") then
 end
 
 library.font = Font.new(getcustomasset(library.directory .. "/fonts/main_encoded.ttf"), Enum.FontWeight.Regular)
---
 
 -- functions
 -- misc functions
@@ -427,7 +426,6 @@ function library:create(instance, options)
 
 	return ins
 end
---
 
 library.gui = library:create("ScreenGui", {
 	Enabled = true,
@@ -546,22 +544,8 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 	})
 
-	--[[
-
-	local TEXT_ANIMATION_GRADIENT = library:create("UIGradient", {
-		Parent = name,
-		Name = "",
-		Color = ColorSequence.new({
-			ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-			ColorSequenceKeypoint.new(0.01, themes.preset.accent),
-			ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)),
-		}),
-	})
-
-	]]
-
 	name.TextColor3 = themes.preset.accent
-    library:apply_theme(name, "accent", "TextColor3")
+	library:apply_theme(name, "accent", "TextColor3")
 
 	local UIPadding = library:create("UIPadding", {
 		Parent = tabs,
@@ -587,23 +571,6 @@ function library:window(properties)
 	})
 
 	library:apply_theme(glow, "accent", "ImageColor3")
-
-	--[[
-
-	task.spawn(function()
-		while true do
-			if __holder.Visible then
-				for i = 1, #animated_text do
-					task.wait(0.2)
-					name.Text = animated_text[i]
-				end
-			end
-			task.wait(0.2)
-		end
-	end)
-	--
-
-	]]
 
 	name.Text = cfg.name
 
@@ -642,30 +609,63 @@ function library:window(properties)
 		BackgroundColor3 = Color3.fromRGB(26, 26, 26),
 	})
 
+	-- =============================================
+	-- 사이드바 탭 버튼 영역 (왼쪽 세로 배치)
+	-- =============================================
+	local sidebar = library:create("Frame", {
+		Parent = main,
+		Name = "",
+		BorderColor3 = Color3.fromRGB(0, 0, 0),
+		BackgroundTransparency = 0,
+		Position = UDim2.new(0, 8, 0, 8),
+		Size = UDim2.new(0, 76, 1, -16),
+		BorderSizePixel = 0,
+		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
+	})
+
+	-- 사이드바 오른쪽 구분선
+	local sidebar_divider = library:create("Frame", {
+		Parent = sidebar,
+		Name = "",
+		Position = UDim2.new(1, 0, 0, 0),
+		Size = UDim2.new(0, 1, 1, 0),
+		BorderSizePixel = 0,
+		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
+	})
+
+	-- 탭 버튼 홀더 (사이드바 안 세로 레이아웃)
 	local tab_buttons = library:create("Frame", {
-    Parent = main,
-    Name = "TabSidebar",
-    BackgroundTransparency = 1,
-    Position = UDim2.new(0, 12, 0, 12),           -- 왼쪽 위 여백
-    Size = UDim2.new(0, 110, 1, -24),             -- 폭 110px, 세로 거의 전체
-    ZIndex = 5,
-})
+		Parent = sidebar,
+		Name = "",
+		BorderColor3 = Color3.fromRGB(0, 0, 0),
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0, 0, 0, 8),
+		Size = UDim2.new(1, 0, 1, -16),
+		ZIndex = 2,
+		BorderSizePixel = 0,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+	})
 
-local list = library:create("UIListLayout", {
-    Parent = tab_buttons,
-    FillDirection = Enum.FillDirection.Vertical,     -- ★ 세로로 변경
-    HorizontalAlignment = Enum.HorizontalAlignment.Left,
-    VerticalAlignment = Enum.VerticalAlignment.Top,
-    Padding = UDim.new(0, 4),                        -- 탭 간격
-    SortOrder = Enum.SortOrder.LayoutOrder,
-})
+	cfg["tab_holder"] = tab_buttons
 
+	local list = library:create("UIListLayout", {
+		Parent = tab_buttons,
+		Name = "",
+		FillDirection = Enum.FillDirection.Vertical,
+		HorizontalAlignment = Enum.HorizontalAlignment.Center,
+		Padding = UDim.new(0, 2),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+	})
+
+	-- =============================================
+	-- 콘텐츠 영역 (사이드바 오른쪽)
+	-- =============================================
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
-		Position = UDim2.new(0, 15, 0, 33),
+		Position = UDim2.new(0, 92, 0, 8),
 		BorderColor3 = Color3.fromRGB(19, 19, 19),
-		Size = UDim2.new(1, -30, 1, -48),
+		Size = UDim2.new(1, -100, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(19, 19, 19),
 	})
@@ -753,17 +753,10 @@ local list = library:create("UIListLayout", {
 		while true do
 			if flags["color_picker_anim_speed"] then
 				library.sin = math.abs(math.sin(tick() * flags["color_picker_anim_speed"]))
-
-				TEXT_ANIMATION_GRADIENT.Color = ColorSequence.new({
-					ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-					ColorSequenceKeypoint.new(math.abs(math.sin(tick())), themes.preset.accent),
-					ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)),
-				})
 			end
 			task.wait()
 		end
 	end)
-	--
 
 	-- esp preview
 	local esp_preview = library:create("Frame", {
@@ -906,16 +899,6 @@ local list = library:create("UIListLayout", {
 		Position = UDim2.new(0.5, -42, 0, 158),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Size = UDim2.new(0, 40, 0, 90),
-		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 38),
-	})
-
-	local hrp = library:create("Frame", {
-		Parent = hrp_out,
-		Name = "",
-		Position = UDim2.new(0, 4, 0, 4),
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(1, -8, 1, -8),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(38, 38, 38),
 	})
@@ -1176,12 +1159,6 @@ local list = library:create("UIListLayout", {
 		}),
 	})
 
-	local UIStroke = library:create("UIStroke", {
-		Parent = distance,
-		Name = "",
-		LineJoinMode = Enum.LineJoinMode.Miter,
-	})
-
 	local weapon = library:create("TextLabel", {
 		Parent = bottom_holder,
 		Name = "",
@@ -1204,12 +1181,6 @@ local list = library:create("UIListLayout", {
 
 	local UIStroke = library:create("UIStroke", {
 		Parent = weapon,
-		Name = "",
-		LineJoinMode = Enum.LineJoinMode.Miter,
-	})
-
-	local UIStroke = library:create("UIStroke", {
-		Parent = distance,
 		Name = "",
 		LineJoinMode = Enum.LineJoinMode.Miter,
 	})
@@ -1477,7 +1448,6 @@ local list = library:create("UIListLayout", {
 	})
 
 	library:apply_theme(glow, "accent", "ImageColor3")
-	--
 
 	-- playerlist
 	local selected_button
@@ -2090,7 +2060,6 @@ local list = library:create("UIListLayout", {
 	library:connection(players.PlayerRemoving, function(player)
 		player_buttons[player.Name].instance:Destroy()
 	end)
-	--
 
 	-- keybind list
 	local old_kblist = library:create("Frame", {
@@ -2236,7 +2205,6 @@ local list = library:create("UIListLayout", {
 	})
 
 	library.keybind_path = tabs
-	--
 
 	function cfg.toggle_list(bool)
 		old_kblist.Visible = bool
@@ -2308,7 +2276,6 @@ function library:new_keybind(properties)
 		return __text or "..."
 	end
 
-	-- Shit ass function
 	function cfg.update(n_properties)
 		cfg.change_text(
 			"["
@@ -2334,8 +2301,6 @@ function library:notification(properties)
 		text = properties.text or properties.name or "ledger.live is pasted",
 	}
 
-	-- 28 offset
-
 	function cfg:refresh_notifications()
 		for _, notif in next, library.notifications do
 			tween_service
@@ -2348,7 +2313,6 @@ function library:notification(properties)
 		end
 	end
 
-	-- Instances
 	local holder = library:create("Frame", {
 		Parent = library.gui,
 		Name = "",
@@ -2464,7 +2428,6 @@ function library:notification(properties)
 	})
 
 	library:apply_theme(glow, "accent", "ImageColor3")
-	--
 
 	task.spawn(function()
 		tween_service
@@ -2523,40 +2486,41 @@ function library:notification(properties)
 	table.insert(library.notifications, holder)
 end
 
+-- =============================================
+-- library:tab - 사이드바 세로 탭 버튼으로 변경
+-- =============================================
 function library:tab(properties)
 	local cfg = {
 		name = properties.name or "tab",
 		enabled = false,
 	}
 
-	-- Button
-local TAB_BUTTON = library:create("TextButton", {
-    Parent = self.tab_holder,   -- tab_buttons
-    Size = UDim2.new(1, 0, 0, 32),               -- 세로로 길게
-    TextXAlignment = Enum.TextXAlignment.Left,
+	-- 사이드바 탭 버튼
+	local TAB_BUTTON = library:create("TextButton", {
+		Parent = self.tab_holder,
 		Name = "",
 		FontFace = library.font,
 		TextColor3 = themes.preset.unselected_text,
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Text = cfg.name,
 		TextStrokeTransparency = 0.5,
-		BackgroundTransparency = 1,
+		BackgroundTransparency = 0,
+		Size = UDim2.new(1, 0, 0, 26),
 		BorderSizePixel = 0,
 		TextSize = 12,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
 
+	-- 왼쪽 세로 accent 라인 (선택 표시)
 	local line = library:create("Frame", {
 		Parent = TAB_BUTTON,
 		Name = "",
-		Position = UDim2.new(0, 0, 1, 0),
+		Position = UDim2.new(0, 0, 0, 0),
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(1, 0, 0, 2),
+		Size = UDim2.new(0, 2, 1, 0),
 		BorderSizePixel = 0,
-		BackgroundColor3 = rgb(57, 57, 57),
+		BackgroundColor3 = Color3.fromRGB(38, 38, 52), -- 기본: 비선택 상태 색
 	})
-
-	library:apply_theme(line, "accent", "BackgroundColor3")
 
 	local glow = library:create("ImageLabel", {
 		Parent = line,
@@ -2578,19 +2542,7 @@ local TAB_BUTTON = library:create("TextButton", {
 
 	library:apply_theme(glow, "accent", "ImageColor3")
 
-	local depth = library:create("Frame", {
-		Parent = line,
-		Name = "",
-		BackgroundTransparency = 0.5,
-		Position = UDim2.new(0, 0, 0, 1),
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Size = UDim2.new(1, 0, 0, 1),
-		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-	})
-	--
-
-	-- Tab Instances
+	-- 탭 콘텐츠 프레임
 	local TAB = library:create("Frame", {
 		Parent = self.tab_instance_holder,
 		Name = "",
@@ -2704,16 +2656,22 @@ local TAB_BUTTON = library:create("TextButton", {
 		Name = "",
 		PaddingBottom = UDim.new(0, 15),
 	})
-	--
 
 	function cfg.open_tab()
+		-- 이전 탭 비선택 상태로 복원
 		if library.current_tab and library.current_tab[1] ~= TAB_BUTTON then
 			local button = library.current_tab[1]
 			button.TextColor3 = themes.preset.unselected_text
+			button.BackgroundColor3 = Color3.fromRGB(16, 16, 22)
 
-			local parent = button:FindFirstChildOfClass("Frame")
-			parent.BackgroundColor3 = rgb(57, 57, 57)
-			parent:FindFirstChildOfClass("ImageLabel").Visible = false
+			local side_line = button:FindFirstChildOfClass("Frame")
+			if side_line then
+				side_line.BackgroundColor3 = Color3.fromRGB(38, 38, 52)
+				local side_glow = side_line:FindFirstChildOfClass("ImageLabel")
+				if side_glow then
+					side_glow.Visible = false
+				end
+			end
 
 			library.current_tab[2].Visible = false
 		end
@@ -2723,9 +2681,11 @@ local TAB_BUTTON = library:create("TextButton", {
 			TAB,
 		}
 
+		-- 선택된 탭 스타일 적용
 		line.BackgroundColor3 = themes.preset.accent
 		glow.Visible = true
 		TAB_BUTTON.TextColor3 = themes.preset.text
+		TAB_BUTTON.BackgroundColor3 = Color3.fromRGB(22, 22, 32)
 		TAB.Visible = true
 
 		if library.current_element_open and library.current_element_open ~= cfg then
@@ -2746,7 +2706,6 @@ function library:section(properties)
 		side = properties.side or properties.Side or "left",
 	}
 
-	-- Instances
 	local section = library:create("Frame", {
 		Parent = self[cfg.side],
 		Name = "",
@@ -2819,7 +2778,6 @@ function library:section(properties)
 		Name = "",
 		PaddingBottom = UDim.new(0, 13),
 	})
-	--
 
 	cfg["holder"] = elements
 
@@ -3258,7 +3216,6 @@ function library:toggle(properties)
 		previous_holder = self,
 	}
 
-	-- Instances
 	local object = library:create("TextButton", {
 		Parent = self.holder,
 		Name = "",
@@ -3363,7 +3320,6 @@ function library:toggle(properties)
 		Padding = UDim.new(0, 4),
 		SortOrder = Enum.SortOrder.LayoutOrder,
 	})
-	--
 
 	function cfg.set(bool)
 		icon_2.Visible = bool
@@ -3695,7 +3651,6 @@ function library:dropdown(properties)
 		self.bottom_holder.Parent.TextYAlignment = Enum.TextYAlignment.Top
 	end
 
-	-- Instances
 	local dropdown_inline = library:create("Frame", {
 		Parent = cfg.name and bottom_components or self.bottom_holder,
 		Name = "",
@@ -3807,29 +3762,6 @@ function library:dropdown(properties)
 		Name = "",
 		PaddingBottom = UDim.new(0, 4),
 	})
-
-	-- local op3 = library:create("TextButton", {
-	--     Parent = options,
-	--     Name = "",
-	--     FontFace = library.font,
-	--     TextColor3 = Color3.fromRGB(170, 170, 170),
-	--     BorderColor3 = Color3.fromRGB(56, 56, 56),
-	--     Text = "option 3",
-	--     TextStrokeTransparency = 0.5,
-	--     Size = UDim2.new(1, 0, 0, 14),
-	--     TextXAlignment = Enum.TextXAlignment.Left,
-	--     Position = UDim2.new(0, 2, 0, 2),
-	--     BorderSizePixel = 0,
-	--     TextSize = 12,
-	--     BackgroundColor3 = Color3.fromRGB(65, 65, 65)
-	-- })
-
-	-- local UIPadding = library:create("UIPadding", {
-	--     Parent = op3,
-	--     Name = "",
-	--     PaddingLeft = UDim.new(0, 5)
-	-- })
-	--
 
 	function cfg.set_visible(bool)
 		content_inline.Visible = bool
@@ -3946,7 +3878,7 @@ function library:colorpicker(properties)
 	local cfg = {
 		name = properties.name or nil,
 		flag = properties.flag or tostring(2 ^ 789),
-		color = properties.color or properties.default or Color3.new(1, 1, 1), -- Default to white color if not provided
+		color = properties.color or properties.default or Color3.new(1, 1, 1),
 		alpha = properties.alpha or 1,
 		callback = properties.callback or function() end,
 		animation = "normal",
@@ -3964,7 +3896,6 @@ function library:colorpicker(properties)
 	local h, s, v = cfg.color:ToHSV()
 	local a = cfg.alpha
 
-	-- Button Instances
 	local right_components
 	if cfg.name then
 		local object = library:create("TextLabel", {
@@ -4042,9 +3973,7 @@ function library:colorpicker(properties)
 		BorderSizePixel = 0,
 		SliceCenter = Rect.new(Vector2.new(21, 21), Vector2.new(79, 79)),
 	})
-	--
 
-	-- Colorpicker Instances
 	local picker_inline = library:create("Frame", {
 		Parent = library.gui,
 		Name = "",
@@ -4301,9 +4230,6 @@ function library:colorpicker(properties)
 		BackgroundColor3 = Color3.fromRGB(204, 41, 41),
 	})
 
-	--
-
-	-- Animation Handling
 	local content_inline = library:create("Frame", {
 		Parent = library.gui,
 		Name = "",
@@ -4444,7 +4370,6 @@ function library:colorpicker(properties)
 		PaddingBottom = UDim.new(0, 1),
 		PaddingLeft = UDim.new(0, 5),
 	})
-	--
 
 	function cfg.set_visible(bool)
 		picker_inline.Visible = bool
@@ -4710,7 +4635,6 @@ function library:keybind(properties)
 		mode = cfg.mode,
 	})
 
-	-- Instances
 	local right_components
 	if cfg.name then
 		local object = library:create("TextLabel", {
@@ -4887,7 +4811,6 @@ function library:keybind(properties)
 		Name = "",
 		PaddingBottom = UDim.new(0, 4),
 	})
-	--
 
 	function cfg.set_visible(bool)
 		content_inline.Visible = bool
@@ -5078,8 +5001,6 @@ function library:keybind(properties)
 				or Enum.UserInputType.MouseButton2
 				or Enum.UserInputType.MouseButton3
 			then
-				-- I put this giant elseif to avoid having "mousemovement" as a keybind
-
 				cfg.set(input.UserInputType)
 			end
 
@@ -5384,32 +5305,6 @@ function library:panel(properties)
 		Name = "",
 	})
 
-	-- local textbox_inline = library:create("Frame", {
-	--     Parent = Frame,
-	--     Name = "",
-	--     Position = UDim2.new(0, -15, 0, 2),
-	--     BorderColor3 = Color3.fromRGB(19, 19, 19),
-	--     Size = UDim2.new(0, 130, 0, 16),
-	--     BorderSizePixel = 0,
-	--     BackgroundColor3 = Color3.fromRGB(8, 8, 8)
-	-- })
-
-	-- local textbox = library:create("TextBox", {
-	--     Parent = textbox_inline,
-	--     Name = "",
-	--     FontFace = library.font,
-	--     TextColor3 = Color3.fromRGB(170, 170, 170),
-	--     BorderColor3 = Color3.fromRGB(56, 56, 56),
-	--     Text = "",
-	--     TextStrokeTransparency = 0.5,
-	--     Size = UDim2.new(1, -4, 1, -4),
-	--     PlaceholderColor3 = Color3.fromRGB(90, 90, 90),
-	--     Position = UDim2.new(0, 2, 0, 2),
-	--     PlaceholderText = "name",
-	--     TextSize = 12,
-	--     BackgroundColor3 = Color3.fromRGB(38, 38, 38)
-	-- })
-
 	for _, v in next, cfg.options do
 		local button_inline = library:create("Frame", {
 			Parent = Frame,
@@ -5442,7 +5337,5 @@ function library:panel(properties)
 		end)
 	end
 end
---
---
 
 return library
