@@ -615,7 +615,7 @@ function library:window(properties)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BackgroundTransparency = 0,
 		Position = UDim2.new(0, 8, 0, 8),
-		Size = UDim2.new(0, 106, 1, -16),
+		Size = UDim2.new(0, 108, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
@@ -655,9 +655,9 @@ function library:window(properties)
 	local tab_inline = library:create("Frame", {
 		Parent = main,
 		Name = "",
-		Position = UDim2.new(0, 123, 0, 8),
+		Position = UDim2.new(0, 125, 0, 8),
 		BorderColor3 = Color3.fromRGB(19, 19, 19),
-		Size = UDim2.new(1, -130, 1, -16),
+		Size = UDim2.new(1, -132, 1, -16),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.fromRGB(19, 19, 19),
 	})
@@ -2478,32 +2478,28 @@ function library:notification(properties)
 	table.insert(library.notifications, holder)
 end
 
--- =============================================
--- library:tab - 사이드바 세로 탭 버튼으로 변경
--- =============================================
 function library:tab(properties)
 	local cfg = {
 		name = properties.name or "tab",
 		enabled = false,
 	}
 
-	-- 사이드바 탭 버튼
 	local TAB_BUTTON = library:create("TextButton", {
 		Parent = self.tab_holder,
 		Name = "",
 		FontFace = library.font,
 		TextColor3 = themes.preset.unselected_text,
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		Text = cfg.name,
+		Text = "   " .. cfg.name,
 		TextStrokeTransparency = 0.5,
 		BackgroundTransparency = 0,
 		Size = UDim2.new(1, 0, 0, 26),
 		BorderSizePixel = 0,
 		TextSize = 12,
+        TextXAlignment = Enum.TextXAlignment.Left,
 		BackgroundColor3 = Color3.fromRGB(16, 16, 22),
 	})
 
-	-- 왼쪽 세로 accent 라인 (선택 표시)
 	local line = library:create("Frame", {
 		Parent = TAB_BUTTON,
 		Name = "",
@@ -2511,7 +2507,7 @@ function library:tab(properties)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Size = UDim2.new(0, 2, 1, 0),
 		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 52), -- 기본: 비선택 상태 색
+		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
 	})
 
 	local glow = library:create("ImageLabel", {
@@ -2534,7 +2530,6 @@ function library:tab(properties)
 
 	library:apply_theme(glow, "accent", "ImageColor3")
 
-	-- 탭 콘텐츠 프레임
 	local TAB = library:create("Frame", {
 		Parent = self.tab_instance_holder,
 		Name = "",
