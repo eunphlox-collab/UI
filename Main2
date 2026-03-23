@@ -643,28 +643,22 @@ function library:window(properties)
 	})
 
 	local tab_buttons = library:create("Frame", {
-		Parent = main,
-		Name = "",
-		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		BackgroundTransparency = 1,
-		Position = UDim2.new(0, 16, 0, 4),
-		Size = UDim2.new(1, -32, 0, 0),
-		ZIndex = 2,
-		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-	})
+    Parent = main,
+    Name = "TabSidebar",
+    BackgroundTransparency = 1,
+    Position = UDim2.new(0, 12, 0, 12),           -- 왼쪽 위 여백
+    Size = UDim2.new(0, 110, 1, -24),             -- 폭 110px, 세로 거의 전체
+    ZIndex = 5,
+})
 
-	cfg["tab_holder"] = tab_buttons
-
-	local list = library:create("UIListLayout", {
-		Parent = tab_buttons,
-		Name = "",
-		FillDirection = Enum.FillDirection.Horizontal,
-		HorizontalAlignment = Enum.HorizontalAlignment.Center,
-		HorizontalFlex = Enum.UIFlexAlignment.Fill,
-		Padding = UDim.new(0, 6),
-		SortOrder = Enum.SortOrder.LayoutOrder,
-	})
+local list = library:create("UIListLayout", {
+    Parent = tab_buttons,
+    FillDirection = Enum.FillDirection.Vertical,     -- ★ 세로로 변경
+    HorizontalAlignment = Enum.HorizontalAlignment.Left,
+    VerticalAlignment = Enum.VerticalAlignment.Top,
+    Padding = UDim.new(0, 4),                        -- 탭 간격
+    SortOrder = Enum.SortOrder.LayoutOrder,
+})
 
 	local tab_inline = library:create("Frame", {
 		Parent = main,
@@ -2536,8 +2530,10 @@ function library:tab(properties)
 	}
 
 	-- Button
-	local TAB_BUTTON = library:create("TextButton", {
-		Parent = self.tab_holder,
+local TAB_BUTTON = library:create("TextButton", {
+    Parent = self.tab_holder,   -- tab_buttons
+    Size = UDim2.new(1, 0, 0, 32),               -- 세로로 길게
+    TextXAlignment = Enum.TextXAlignment.Left,
 		Name = "",
 		FontFace = library.font,
 		TextColor3 = themes.preset.unselected_text,
@@ -2545,7 +2541,6 @@ function library:tab(properties)
 		Text = cfg.name,
 		TextStrokeTransparency = 0.5,
 		BackgroundTransparency = 1,
-		Size = UDim2.new(0.3330000042915344, -4, 0, 22),
 		BorderSizePixel = 0,
 		TextSize = 12,
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
