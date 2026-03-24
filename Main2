@@ -1788,7 +1788,7 @@ function library:window(properties)
 		Position = UDim2.new(0, 2, 0, 2),
 		Size = UDim2.new(1, -4, 1, -4),
 		TextSize = 12,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 38),
+		BackgroundColor3 = Color3.fromRGB(33, 33, 33),
 	})
 
 	button.MouseButton1Click:Connect(function()
@@ -3665,7 +3665,7 @@ function library:dropdown(properties)
 		Size = UDim2.new(1, -4, 1, -4),
 		Position = UDim2.new(0, 2, 0, 2),
 		TextSize = 12,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 38),
+		BackgroundColor3 = Color3.fromRGB(33, 33, 33),
 	})
 
 	local UIPadding = library:create("UIPadding", {
@@ -3817,7 +3817,7 @@ function library:dropdown(properties)
 				Position = UDim2.new(0, 2, 0, 2),
 				BorderSizePixel = 0,
 				TextSize = 12,
-				BackgroundColor3 = Color3.fromRGB(65, 65, 65),
+				BackgroundColor3 = Color3.fromRGB(55, 55, 55),
 			})
 
 			local UIPadding = library:create("UIPadding", {
