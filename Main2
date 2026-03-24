@@ -2658,7 +2658,7 @@ function library:tab(properties)
 
 			local side_line = button:FindFirstChildOfClass("Frame")
 			if side_line then
-				side_line.BackgroundColor3 = Color3.fromRGB(38, 38, 52)
+				side_line.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 				local side_glow = side_line:FindFirstChildOfClass("ImageLabel")
 				if side_glow then
 					side_glow.Visible = false
