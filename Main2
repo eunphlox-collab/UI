@@ -2513,7 +2513,7 @@ function library:tab(properties)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Size = UDim2.new(0, 2, 1, 0),
 		BorderSizePixel = 0,
-		BackgroundColor3 = Color3.fromRGB(38, 38, 52),
+		BackgroundColor3 = Color3.fromRGB(45, 45, 45),
 	})
 
 	local glow = library:create("ImageLabel", {
