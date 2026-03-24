@@ -617,7 +617,7 @@ function library:window(properties)
 		Parent = main,
 		Name = "",
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
-		BackgroundTransparency = 0.7,
+		BackgroundTransparency = 1,
 		Position = UDim2.new(0, 8, 0, 8),
 		Size = UDim2.new(0, 110, 1, -16),
 		BorderSizePixel = 0,
@@ -703,6 +703,7 @@ function library:window(properties)
 		ZIndex = 2,
 		TextSize = 12,
         TextXAlignment = Enum.TextXAlignment.Left,
+        Visible = false
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 	})
 
