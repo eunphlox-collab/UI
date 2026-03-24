@@ -1,7 +1,3 @@
-Gmail	김은율 <eun.phlox@gmail.com>
-A
-김은율 <eun.phlox@gmail.com>	2026년 3월 24일 PM 4:50
-받는사람: 김은율 <eun.phlox@gmail.com>
 repeat
 task["wait"]()
 until game:IsLoaded()
