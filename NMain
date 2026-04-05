@@ -1304,8 +1304,6 @@ local Library do
             end
 
             task.delay(Duration + 0.1, function()
-                Items["Notification"].Instance.BorderSizePixel = 0
-
                 for Index, Value in Items["Notification"].Instance:GetDescendants() do
                     if Value:IsA("UIStroke") then
                         Tween:Create(Value, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Transparency = 1}, true)
