@@ -7514,7 +7514,7 @@ menu["settings"][{ ["name"] = "theming" }] = theme_section
 
 create_connection(
 theme_section:create_element({
-["name"] = "juju color",
+["name"] = "name color",
 }, {
 ["colorpicker"] = {
 ["default_color"] = menu["colors"]["juju"],
