@@ -2,7 +2,6 @@ repeat
 task["wait"]()
 until game:IsLoaded()
 
-
 -- > ( luraph variables )
 
 if not LPH_OBFUSCATED then
@@ -25,7 +24,7 @@ end
 
 -- > ( global cheat variables )
 
-local file_path = getgenv().custom_folder or "neo. recode"
+local file_path = getgenv().custom_folder or "juju recode"
 local user_input_service = cloneref(game:GetService("UserInputService"))
 local get_mouse_location = user_input_service["GetMouseLocation"]
 local players_service = cloneref(game:GetService("Players"))
@@ -767,7 +766,7 @@ local logo = drawing_proxy["new"]("Image", {
 local juju_text = drawing_proxy["new"]("Text", {
 ["Font"] = 1,
 ["Color"] = color3_fromrgb(255, 255, 255),
-["Text"] = getgenv().script_name or "neo",
+["Text"] = getgenv().script_name or "juju",
 ["Parent"] = logo,
 ["Position"] = udim2_new(1, 5, 0, 3),
 ["Size"] = 14,
@@ -7298,7 +7297,7 @@ data = loadstring(data)
 end)
 
 if not s then
-return "neo: addon " .. name .. " experienced an error while loading: " .. err
+return "juju: addon " .. name .. " experienced an error while loading: " .. err
 end
 
 if addon_data[name] then
@@ -7323,7 +7322,7 @@ local s, err = coroutine["resume"](thread)
 
 if not s then
 spawn(menu["unload_addon"], name)
-error("neo: addon " .. name .. " experienced an error while loading: " .. err)
+error("juju: addon " .. name .. " experienced an error while loading: " .. err)
 end
 end
 end
@@ -7459,7 +7458,7 @@ settings_section:create_element({
 },
 })["on_clicked"],
 function()
-getgenv()["_NEO"]()
+getgenv()["_JUJU"]()
 
 if identifyexecutor() == "AWP" then
 cleardrawcache()
@@ -7514,7 +7513,7 @@ menu["settings"][{ ["name"] = "theming" }] = theme_section
 
 create_connection(
 theme_section:create_element({
-["name"] = "name color",
+["name"] = "juju color",
 }, {
 ["colorpicker"] = {
 ["default_color"] = menu["colors"]["juju"],
@@ -8619,7 +8618,7 @@ end
 -- > ( loading / unloading )
 
 do
-local unload = getgenv()["_NEO"]
+local unload = getgenv()["_JUJU"]
 
 if unload then
 unload()
@@ -8641,8 +8640,8 @@ end)
 
 getrawmetatable = env["getrawmetatable"]
 
-env["_NEO"] = function()
-env["_NEO"] = nil
+env["_JUJU"] = function()
+env["_JUJU"] = nil
 
 for _, group in menu["groups"] do
 for _, tab in group["tabs"] do
